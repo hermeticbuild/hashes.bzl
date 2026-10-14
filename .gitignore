@@ -1,3 +1,4 @@
 bazel-*
 /.tmp/
 __pycache__/
+.venv/

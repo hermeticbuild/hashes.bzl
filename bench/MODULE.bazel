@@ -1,0 +1,10 @@
+module(name = "hashes_bench")
+
+bazel_dep(name = "hashes.bzl")
+local_path_override(
+    module_name = "hashes.bzl",
+    path = "..",
+)
+
+bench = use_extension("//:bench.bzl", "bench")
+use_repo(bench, "hashes_bench_results")

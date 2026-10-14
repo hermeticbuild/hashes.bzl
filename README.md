@@ -47,6 +47,21 @@ bytes like everything else. `//private/utf8:test_utf8` and
 
 No absolutely not.
 
+## Performance
+
+Abysmal, which is the point. `bench/run.py` measures throughput in Bazel's own
+Starlark interpreter and in [starlark-rs](https://github.com/facebook/starlark-rust)
+(Buck2's), against native implementations, checking every digest:
+
+```shell
+uv run --group test bench/run.py
+```
+
+starlark-rs releases up to at least 0.14.0 compute `1 << 31` as `-2147483648`,
+which breaks SHA-1 and SHA-2; build it from
+[4ab492790e](https://github.com/facebook/starlark-rust/commit/4ab492790e) or
+later.
+
 ## Development
 
 ```shell
