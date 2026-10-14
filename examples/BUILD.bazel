@@ -11,6 +11,7 @@ write_file(
         "sha1 " + hashes.sha1("abc"),
         "sha256 " + hashes.sha256("abc"),
         "crc32 " + hashes.crc32("abc"),
+        "sha224 " + hashes.sha224("abc"),
         "",
     ],
 )
@@ -24,6 +25,7 @@ write_file(
         "sha1 a9993e364706816aba3e25717850c26c9cd0d89d",
         "sha256 ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
         "crc32 352441c2",
+        "sha224 23097d223405d8228642a477bda255b32aadbce4bda0b3f7e36c9da7",
         "",
     ],
 )

@@ -73,28 +73,35 @@ _K = [
     0xC67178F2,
 ]
 
-def sha256(input):
-    """Computes the SHA-256 digest of a byte string.
+# --- SHA-256 Initial Hash Values ---
+# First 32 bits of the fractional parts of the square roots of the first 8 primes.
+_IV = [
+    0x6A09E667,
+    0xBB67AE85,
+    0x3C6EF372,
+    0xA54FF53A,
+    0x510E527F,
+    0x9B05688C,
+    0x1F83D9AB,
+    0x5BE0CD19,
+]
+
+def sha256_words(data, iv):
+    """Runs the SHA-256 compression function over a message.
+
+    Shared by SHA-256 and SHA-224, which differ only in their initial hash
+    values and in how much of the result they keep.
 
     Args:
-        input: The byte string to hash; see hashes.bzl.
+        data (list[int]): The unpadded message bytes, as from to_bytes
+        iv (list[int]): The 8 initial 32-bit hash values
 
     Returns:
-        The digest as 64 lowercase hex characters.
+        The 8 final 32-bit hash values
     """
+    h0, h1, h2, h3, h4, h5, h6, h7 = iv
 
-    # --- SHA-256 Initial Hash Values ---
-    # First 32 bits of the fractional parts of the square roots of the first 8 primes.
-    h0 = 0x6A09E667
-    h1 = 0xBB67AE85
-    h2 = 0x3C6EF372
-    h3 = 0xA54FF53A
-    h4 = 0x510E527F
-    h5 = 0x9B05688C
-    h6 = 0x1F83D9AB
-    h7 = 0x5BE0CD19
-
-    message = md_pad(to_bytes(input), big_endian = True)
+    message = md_pad(data, big_endian = True)
 
     for i in range(len(message) // 64):
         w = words_be(message[i * 64:(i + 1) * 64]) + [0] * 48
@@ -144,4 +151,15 @@ def sha256(input):
         h6 = (h6 + g) & 0xFFFFFFFF
         h7 = (h7 + h) & 0xFFFFFFFF
 
-    return hex_words_be([h0, h1, h2, h3, h4, h5, h6, h7])
+    return [h0, h1, h2, h3, h4, h5, h6, h7]
+
+def sha256(input):
+    """Computes the SHA-256 digest of a byte string.
+
+    Args:
+        input: The byte string to hash; see hashes.bzl.
+
+    Returns:
+        The digest as 64 lowercase hex characters.
+    """
+    return hex_words_be(sha256_words(to_bytes(input), _IV))

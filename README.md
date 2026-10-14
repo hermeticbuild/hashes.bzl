@@ -15,6 +15,7 @@ hashes.sha1(input: str) -> str
 hashes.md5(input: str) -> str
 hashes.sha256(input: str) -> str
 hashes.blake3(input: str) -> str
+hashes.sha224(input: str) -> str
 hashes.crc32(input: str) -> str
 ```
 

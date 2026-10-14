@@ -30,6 +30,7 @@ filegroup(
         "//private/crc32:crc32.bzl",
         "//private/md5:md5.bzl",
         "//private/sha1:sha1.bzl",
+        "//private/sha224:sha224.bzl",
         "//private/sha256:sha256.bzl",
     ],
     visibility = ["//private:__subpackages__"],
