@@ -190,7 +190,7 @@
   "moduleExtensions": {
     "//:bench.bzl%bench": {
       "general": {
-        "bzlTransitiveDigest": "5myqJiTkFbgYk224SwvCIUo09UY9cnsvV9qTHOUjV1Q=",
+        "bzlTransitiveDigest": "sPSmwUww0KWOt7HzVm/n34ZCc2mZGoBn/e7XXtY17Lw=",
         "usagesDigest": "h46LSUP2JNdXeySG3L2RYmqkGGAyCQWxuYivxtM6OOc=",
         "recordedInputs": [
           "REPO_MAPPING:,hashes.bzl hashes.bzl+"

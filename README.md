@@ -49,12 +49,12 @@ No absolutely not.
 
 ## Performance
 
-Abysmal, which is the point. `bench/run.py` measures throughput in Bazel's own
+Abysmal, which is the point. `benchmark/run.py` measures throughput in Bazel's own
 Starlark interpreter and in [starlark-rs](https://github.com/facebook/starlark-rust)
 (Buck2's), against native implementations, checking every digest:
 
 ```shell
-uv run --group test bench/run.py
+uv run --group test benchmark/run.py
 ```
 
 starlark-rs releases up to at least 0.14.0 compute `1 << 31` as `-2147483648`,

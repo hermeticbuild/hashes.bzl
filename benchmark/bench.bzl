@@ -34,7 +34,7 @@ def _calibrate(rctx, algorithm, data, target_ns, overhead_ns):
 def _results_impl(rctx):
     config = rctx.getenv("BENCH_CONFIG")
     if config == None:
-        fail("run bench/run.py, which sets BENCH_CONFIG")
+        fail("run benchmark/run.py, which sets BENCH_CONFIG")
     config = json.decode(config)
 
     # Re-runs on every invocation of run.py, rather than reusing old results.

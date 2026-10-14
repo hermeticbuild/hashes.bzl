@@ -1,6 +1,6 @@
 load("@buildifier_prebuilt//:rules.bzl", "buildifier", "buildifier_test")
 
-# Scratch space, including bench/run.py's staged copy of the .bzl files.
+# Scratch space, including benchmark/run.py's staged copy of the .bzl files.
 _EXCLUDE = ["./.tmp/*"]
 
 buildifier(

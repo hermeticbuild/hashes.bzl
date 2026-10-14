@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Benchmarks hashes.bzl under Bazel's and starlark-rs's Starlark interpreters.
 
-    uv run --group test bench/run.py [--algorithms sha256,crc32] [--sizes 64,65536]
+    uv run --group test benchmark/run.py [--algorithms sha256,crc32] [--sizes 64,65536]
 
 Bazel runs the workload in a repository rule (bench.bzl), timing itself with
 `date`. starlark-rs (the `starlark` binary from facebook/starlark-rust) has no
@@ -122,7 +122,7 @@ def stage(dest):
     """Copies the library and workload to dest, with load() labels rewritten to paths."""
     files = subprocess.run(
         ["git", "ls-files", "--cached", "--others", "--exclude-standard", "--"]
-        + ["hashes.bzl", "private/*.bzl", "bench/workload.bzl"],
+        + ["hashes.bzl", "private/*.bzl", "benchmark/workload.bzl"],
         cwd=ROOT,
         check=True,
         capture_output=True,
@@ -142,7 +142,7 @@ def starlark_rs(args, stage_dir):
     def evaluate(algorithm, size, calls):
         script = stage_dir / "bench.star"
         script.write_text(
-            'load("bench/workload.bzl", "message", "run")\n'
+            'load("benchmark/workload.bzl", "message", "run")\n'
             "def main():\n"
             f'    print(run("{algorithm}", message({size}), {calls}))\n'
             "main()\n"
@@ -223,7 +223,7 @@ def main():
     # Runs from the staging directory, so must not be relative.
     args.starlark = str(pathlib.Path(shutil.which(args.starlark)).resolve())
 
-    stage_dir = ROOT / ".tmp" / "bench" / "stage"
+    stage_dir = ROOT / ".tmp" / "benchmark" / "stage"
     shutil.rmtree(stage_dir, ignore_errors=True)
     stage_dir.mkdir(parents=True)
     try:
