@@ -51,28 +51,32 @@ bytes like everything else. `//private/utf8:test_utf8` and
 
 No absolutely not.
 
-Bazel's Starlark interpreter hashes at 185 KiB/s to 1.8 MiB/s, three to four
+Bazel's Starlark interpreter hashes at 108 KiB/s to 1.8 MiB/s, three to four
 orders of magnitude slower than native code. Hashing 64 KiB messages on an AMD
 Ryzen Threadripper 7970X:
 
 | Algorithm | Bazel 9.3.0 | starlark-rs | Native | Bazel vs native |
 |---|---:|---:|---:|---:|
-| md5 | 1,014 KiB/s | 1.8 MiB/s | 1,024 MiB/s | 1,034× slower |
-| sha1 | 627 KiB/s | 1.1 MiB/s | 2.3 GiB/s | 3,917× slower |
-| sha224 | 360 KiB/s | 526 KiB/s | 2.2 GiB/s | 6,368× slower |
-| sha256 | 356 KiB/s | 535 KiB/s | 2.2 GiB/s | 6,462× slower |
-| sha384 | 185 KiB/s | 420 KiB/s | 1.1 GiB/s | 6,021× slower |
-| sha512 | 187 KiB/s | 413 KiB/s | 1.1 GiB/s | 5,994× slower |
-| sha512_224 | 187 KiB/s | 422 KiB/s | 1.1 GiB/s | 6,000× slower |
-| sha512_256 | 186 KiB/s | 426 KiB/s | 1.1 GiB/s | 5,969× slower |
-| blake3 | 514 KiB/s | 988 KiB/s | 7.4 GiB/s | 15,200× slower |
-| crc32 | 1.8 MiB/s | 8.1 MiB/s | 3.4 GiB/s | 1,916× slower |
+| md5 | 979 KiB/s | 1.8 MiB/s | 1,008 MiB/s | 1,054× slower |
+| sha1 | 611 KiB/s | 1.1 MiB/s | 2.3 GiB/s | 4,012× slower |
+| sha224 | 357 KiB/s | 505 KiB/s | 2.2 GiB/s | 6,403× slower |
+| sha256 | 350 KiB/s | 512 KiB/s | 2.2 GiB/s | 6,588× slower |
+| sha384 | 181 KiB/s | 411 KiB/s | 1.1 GiB/s | 6,121× slower |
+| sha512 | 183 KiB/s | 420 KiB/s | 1.1 GiB/s | 6,044× slower |
+| sha512_224 | 185 KiB/s | 408 KiB/s | 1.1 GiB/s | 6,002× slower |
+| sha512_256 | 182 KiB/s | 414 KiB/s | 1.1 GiB/s | 6,059× slower |
+| sha3_224 | 202 KiB/s | 465 KiB/s | 673 MiB/s | 3,404× slower |
+| sha3_256 | 194 KiB/s | 437 KiB/s | 641 MiB/s | 3,380× slower |
+| sha3_384 | 152 KiB/s | 346 KiB/s | 495 MiB/s | 3,327× slower |
+| sha3_512 | 108 KiB/s | 246 KiB/s | 346 MiB/s | 3,293× slower |
+| blake3 | 505 KiB/s | 960 KiB/s | 7.5 GiB/s | 15,558× slower |
+| crc32 | 1.8 MiB/s | 8.2 MiB/s | 3.3 GiB/s | 1,953× slower |
 
-Small inputs fare little better: a 64-byte message takes Bazel 0.10 to 0.66 ms
-(35 µs for CRC-32), 180 to 1,170 times longer than native code.
+Small inputs fare little better: a 64-byte message takes Bazel 0.10 to 0.67 ms
+(36 µs for CRC-32), 187 to 1,150 times longer than native code.
 
 [starlark-rs](https://github.com/facebook/starlark-rust), Buck2's interpreter,
-is 1.5 to 4.5 times faster, which doesn't help. Native is CPython's `hashlib`
+is 1.4 to 4.5 times faster, which doesn't help. Native is CPython's `hashlib`
 and `zlib`, and the `blake3` package. To reproduce:
 
 ```shell
