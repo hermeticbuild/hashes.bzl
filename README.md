@@ -66,6 +66,10 @@ Each hash lives in `private/<hash>/` and is tested twice:
 Python test dependencies are locked in `uv.lock`; after editing
 `pyproject.toml`, run `uv lock`.
 
+To release, push a `vX.Y.Z` tag. `.github/workflows/release.yaml` attaches an
+attested archive to a GitHub release and opens a pull request adding it to the
+Bazel Central Registry.
+
 ## License
 
 MIT — see [LICENSE](./LICENSE).
