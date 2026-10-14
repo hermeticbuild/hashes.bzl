@@ -14,6 +14,7 @@ minimum version (bazelbuild/bazel#24417).
 """
 
 load("//private/blake3:blake3.bzl", _blake3 = "blake3")
+load("//private/crc32:crc32.bzl", _crc32 = "crc32")
 load("//private/md5:md5.bzl", _md5 = "md5")
 load("//private/sha1:sha1.bzl", _sha1 = "sha1")
 load("//private/sha256:sha256.bzl", _sha256 = "sha256")
@@ -23,4 +24,5 @@ hashes = struct(
     md5 = _md5,
     sha256 = _sha256,
     blake3 = _blake3,
+    crc32 = _crc32,
 )

@@ -1,0 +1,24 @@
+load("//bazel/python:defs.bzl", "starlark_pytest")
+load("//bazel/starlark:defs.bzl", "hash_kat_test")
+load(":crc32.bzl", "crc32")
+load(":vectors.bzl", "VECTORS")
+
+exports_files(["crc32.bzl"])
+
+hash_kat_test(
+    name = "crc32_kat_test",
+    hash = crc32,
+    vectors = VECTORS,
+)
+
+starlark_pytest(
+    name = "test_crc32",
+    srcs = ["test_crc32.py"],
+    bzl_srcs = [
+        "crc32.bzl",
+        "vectors.bzl",
+        "//private:bytes.bzl",
+        "//private:hex.bzl",
+        "//private:ord.bzl",
+    ],
+)

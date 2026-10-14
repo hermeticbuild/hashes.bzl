@@ -1,3 +1,4 @@
+load("@aspect_rules_py//py:defs.bzl", "py_library")
 load("//bazel/python:defs.bzl", "starlark_pytest")
 
 exports_files([
@@ -16,19 +17,34 @@ starlark_pytest(
     ],
 )
 
-starlark_pytest(
-    name = "test_hashes",
-    srcs = ["test_hashes.py"],
-    bzl_srcs = [
+# Every .bzl file behind the public `hashes` struct, for tests that use it.
+filegroup(
+    name = "hashes_bzl",
+    srcs = [
         "bits.bzl",
         "bytes.bzl",
         "hex.bzl",
         "ord.bzl",
         "//:hashes.bzl",
         "//private/blake3:blake3.bzl",
+        "//private/crc32:crc32.bzl",
         "//private/md5:md5.bzl",
         "//private/sha1:sha1.bzl",
         "//private/sha256:sha256.bzl",
     ],
+    visibility = ["//private:__subpackages__"],
+)
+
+py_library(
+    name = "references",
+    srcs = ["references.py"],
+    visibility = ["//private:__subpackages__"],
     deps = ["@pypi//blake3"],
+)
+
+starlark_pytest(
+    name = "test_hashes",
+    srcs = ["test_hashes.py"],
+    bzl_srcs = [":hashes_bzl"],
+    deps = [":references"],
 )

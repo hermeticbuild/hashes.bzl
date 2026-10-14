@@ -28,6 +28,7 @@ write_file(
             "md5",
             "sha1",
             "sha256",
+            "crc32",
         ]
     ] + [""],
 )
@@ -40,14 +41,17 @@ write_file(
         "cjk 6 md5 a7bac2239fcdcb3a067903d8077c4a07",
         "cjk 6 sha1 7be2d2d20c106eee0836c9bc2b939890a78e8fb3",
         "cjk 6 sha256 72726d8818f693066ceb69afa364218b692e62ea92b385782363780f47529c21",
+        "cjk 6 crc32 5a09ed37",
         "emoji 4 blake3 728105475d1a9e2f0164862a43e44bea39fa5d8b73d484f9137b8ae65a66dd7a",
         "emoji 4 md5 2a02eac39d716a70ecf37579185927b6",
         "emoji 4 sha1 9c533688a979a858cbd6a43c9f91aba624651f18",
         "emoji 4 sha256 f0443a342c5ef54783a111b51ba56c938e474c32324d90c3a60c9c8e3a37e2d9",
+        "emoji 4 crc32 054db544",
         "4-byte-across-block 65 blake3 23d0f975ca1dcf118fbd7db387290dce884774cd42f7fa2c2f60c7ed2678e32d",
         "4-byte-across-block 65 md5 649e647c619800037cae2efe1955d927",
         "4-byte-across-block 65 sha1 6cc1fa22d80bcf4e9ee48326073fb9c2a88f8fef",
         "4-byte-across-block 65 sha256 3eb09faebb8cd439bc8ffdbe13753a0b5b681af8edce6e13409acd27f307f8d4",
+        "4-byte-across-block 65 crc32 5beaff5c",
         "",
     ],
 )

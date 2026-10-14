@@ -1,20 +1,12 @@
 """Tests of hashing UTF-8 text, as Bazel's interpreter and the harness see it."""
 
-import hashlib
 import json
 import os
 
-import blake3
 import pytest
 
+from private.references import REFERENCES
 from private.utf8 import cases
-
-REFERENCES = {
-    "blake3": blake3.blake3,
-    "md5": hashlib.md5,
-    "sha1": hashlib.sha1,
-    "sha256": hashlib.sha256,
-}
 
 
 def reference_lines():
@@ -24,7 +16,7 @@ def reference_lines():
     for case in json.loads(cases.CASES_JSON.encode("latin-1").decode("utf-8")):
         message = b"a" * case.get("pad", 0) + case["text"].encode("utf-8", "surrogatepass") * case.get("repeat", 1)
         for algorithm in cases.ALGORITHMS:
-            digest = REFERENCES[algorithm](message).hexdigest()
+            digest = REFERENCES[algorithm](message)
             lines.append("{} {} {} {}".format(case["name"], len(message), algorithm, digest))
     return lines
 
@@ -47,6 +39,10 @@ def test_raw_and_escaped_agree():
 @pytest.mark.parametrize(("name", "length"), [("first-2-byte", 2), ("first-3-byte", 3), ("emoji", 4)])
 def test_escapes_decode_to_utf8_bytes(name, length):
     assert len(dict(cases.utf8_cases())[name]) == length
+
+
+def test_covers_every_algorithm():
+    assert sorted(cases.ALGORITHMS) == sorted(REFERENCES)
 
 
 def test_cases_reach_bazel_through_escapes():
