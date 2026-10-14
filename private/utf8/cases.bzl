@@ -1,10 +1,11 @@
 """UTF-8 test cases, smuggled into Bazel through json.decode.
 
 Bazel represents a string as its UTF-8 bytes, one character per byte. Since
-Bazel 8.2, json.decode turns `\\u` escapes into those bytes too, which lets
-these cases name exact code points while this file stays ASCII. (Earlier
-Bazels decode escapes to UTF-16 code units instead, which aren't bytes.) The
-one raw UTF-8 case checks that both routes agree.
+Bazel 8.2.0 (bazelbuild/bazel#24417), json.decode turns `\\u` escapes into
+those bytes too, which lets these cases name exact code points while this file
+stays ASCII. Earlier Bazels decoded escapes to UTF-16 code units, which aren't
+bytes; that change is why MODULE.bazel requires 8.2.0. The one raw UTF-8 case
+checks that both routes agree.
 
 Each case is hashed as `"a" * pad + text * repeat`; the padding positions a
 multibyte character across a block or chunk boundary.

@@ -21,9 +21,21 @@ Each takes a byte string (Bazel's usual representation of bytes: one character
 per byte, U+0000 to U+00FF) and returns a lowercase hex digest; e.g.
 `hashes.sha256("hello")` is `"2cf24dba5fb0a30e..."`.
 
-Text from `json.decode` with `\u` escapes is only UTF-8 bytes from Bazel 8.2
-on; earlier versions fail or hash it as Latin-1. Literals and file contents
-work on every version.
+## Compatibility
+
+Bazel 8.2.0 and later; `MODULE.bazel` enforces this with `bazel_compatibility`.
+Tested on 8.2.0, the latest 8.x and 9.x.
+
+The lower bound is where Bazel's strings became consistently bytes. Bazel
+represents a string as its UTF-8 bytes, one character per byte, and that is what
+these functions hash. Before 8.2.0, `json.decode` was the exception: it decoded
+`\u` escapes to UTF-16 code units, so the same text hashed differently depending
+on how the JSON spelled it, and failed outright above U+00FF.
+[bazelbuild/bazel#24417](https://github.com/bazelbuild/bazel/pull/24417)
+(backported to 8.2.0 as
+[#25451](https://github.com/bazelbuild/bazel/pull/25451)) made it decode to UTF-8
+bytes like everything else. `//private/utf8:test_utf8` and
+`examples/utf8` cover this.
 
 ## Is this a good idea?
 

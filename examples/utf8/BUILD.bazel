@@ -3,8 +3,7 @@ load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@hashes.bzl", "hashes")
 
 # Multibyte text smuggled in through json.decode's \u escapes, which decode
-# to UTF-8 bytes from Bazel 8.2 on. Kept out of the root package so older
-# Bazels can still run the smoke test there.
+# to UTF-8 bytes from Bazel 8.2.0 (bazelbuild/bazel#24417).
 _CASES = json.decode(r"""
 [
     ["cjk", "\u4e2d\u6587"],

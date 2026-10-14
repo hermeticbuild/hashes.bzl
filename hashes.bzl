@@ -9,9 +9,8 @@ Latin-1, so they are already byte strings (non-ASCII literals as their UTF-8
 bytes), as are the strings bazel_lib's `base64` produces and consumes. Other
 characters fail.
 
-Since Bazel 8.2, json.decode also produces UTF-8 bytes for `\\u` escapes.
-Earlier versions produce UTF-16 code units, which aren't bytes: such text fails
-(above U+00FF) or hashes as Latin-1 (U+0080 to U+00FF).
+json.decode does the same for `\\u` escapes from Bazel 8.2.0, this module's
+minimum version (bazelbuild/bazel#24417).
 """
 
 load("//private/blake3:blake3.bzl", _blake3 = "blake3")

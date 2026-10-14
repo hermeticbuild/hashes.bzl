@@ -2,24 +2,12 @@ bcr_test_module:
   module_path: examples
   matrix:
     platform: [ubuntu2404]
-    bazel: [7.x, 8.x, 9.x]
+    # MODULE.bazel requires >=8.2.0; see "Compatibility" in README.md.
+    bazel: [8.x, 9.x]
   tasks:
-    smoke_test:
-      name: Hash "abc" with every algorithm
+    verify_digests:
+      name: Hash ASCII and JSON-decoded multibyte text
       platform: ${{ platform }}
       bazel: ${{ bazel }}
       test_targets:
-        - //:digests_test
-    # json.decode only yields UTF-8 bytes from Bazel 8.2 on.
-    utf8_test_8:
-      name: Hash JSON-decoded multibyte text (Bazel 8)
-      platform: ubuntu2404
-      bazel: 8.x
-      test_targets:
-        - //utf8:utf8_test
-    utf8_test_9:
-      name: Hash JSON-decoded multibyte text (Bazel 9)
-      platform: ubuntu2404
-      bazel: 9.x
-      test_targets:
-        - //utf8:utf8_test
+        - //...
