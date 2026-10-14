@@ -21,4 +21,8 @@ REFERENCES = {
     "sha384": _hashlib("sha384"),
     "sha512_224": _hashlib("sha512_224"),
     "sha512_256": _hashlib("sha512_256"),
+    "sha3_224": _hashlib("sha3_224"),
+    "sha3_256": _hashlib("sha3_256"),
+    "sha3_384": _hashlib("sha3_384"),
+    "sha3_512": _hashlib("sha3_512"),
 }

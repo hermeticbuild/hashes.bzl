@@ -19,6 +19,10 @@ hashes.sha384(input: str) -> str
 hashes.sha512(input: str) -> str
 hashes.sha512_224(input: str) -> str
 hashes.sha512_256(input: str) -> str
+hashes.sha3_224(input: str) -> str
+hashes.sha3_256(input: str) -> str
+hashes.sha3_384(input: str) -> str
+hashes.sha3_512(input: str) -> str
 hashes.blake3(input: str) -> str
 hashes.crc32(input: str) -> str
 ```

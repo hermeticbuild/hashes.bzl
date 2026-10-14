@@ -67,6 +67,18 @@ def words64_be(data):
     words = words_be(data)
     return [(hi << 32) | lo for hi, lo in zip(words[0::2], words[1::2])]
 
+def words64_le(data):
+    """Packs bytes into 64-bit words, least significant byte first.
+
+    Args:
+       data (list[int]): The bytes; a multiple of 8 long
+
+    Returns:
+       A list of words
+    """
+    words = words_le(data)
+    return [(hi << 32) | lo for lo, hi in zip(words[0::2], words[1::2])]
+
 def md_pad(data, big_endian, block_size = 64):
     """Applies Merkle-Damgard padding, as MD5 and SHA-1/2 do.
 

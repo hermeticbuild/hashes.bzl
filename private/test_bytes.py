@@ -4,7 +4,7 @@ import pytest
 from hypothesis import given, strategies as st
 
 from bazel.python.starlark_finder import StarlarkFail
-from private.bytes import md_pad, to_bytes, words64_be
+from private.bytes import md_pad, to_bytes, words64_be, words64_le
 from private.ord import ord as ord_bzl
 
 
@@ -49,3 +49,8 @@ def test_md_pad(data, block_size, big_endian):
 @given(st.binary(min_size=8, max_size=64).map(lambda b: b[: len(b) // 8 * 8]))
 def test_words64_be(data):
     assert words64_be(list(data)) == [int.from_bytes(data[i : i + 8], "big") for i in range(0, len(data), 8)]
+
+
+@given(st.binary(min_size=8, max_size=64).map(lambda b: b[: len(b) // 8 * 8]))
+def test_words64_le(data):
+    assert words64_le(list(data)) == [int.from_bytes(data[i : i + 8], "little") for i in range(0, len(data), 8)]
