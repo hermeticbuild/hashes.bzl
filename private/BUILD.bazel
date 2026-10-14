@@ -4,12 +4,16 @@ exports_files([
     "bits.bzl",
     "bytes.bzl",
     "hex.bzl",
+    "ord.bzl",
 ])
 
 starlark_pytest(
     name = "test_bytes",
     srcs = ["test_bytes.py"],
-    bzl_srcs = ["bytes.bzl"],
+    bzl_srcs = [
+        "bytes.bzl",
+        "ord.bzl",
+    ],
 )
 
 starlark_pytest(
@@ -19,6 +23,7 @@ starlark_pytest(
         "bits.bzl",
         "bytes.bzl",
         "hex.bzl",
+        "ord.bzl",
         "//:hashes.bzl",
         "//private/blake3:blake3.bzl",
         "//private/md5:md5.bzl",

@@ -20,5 +20,6 @@ starlark_pytest(
         "//private:bits.bzl",
         "//private:bytes.bzl",
         "//private:hex.bzl",
+        "//private:ord.bzl",
     ],
 )

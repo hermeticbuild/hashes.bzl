@@ -1,6 +1,6 @@
 """Byte-level helpers shared by the hash implementations."""
 
-load("@bazel_lib//lib:strings.bzl", "ord")
+load("//private:ord.bzl", "ord")
 
 def to_bytes(input):
     """Converts a byte string to a list of byte values.

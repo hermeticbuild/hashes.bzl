@@ -65,21 +65,10 @@ _BUILTINS = {
 } | {"__starlark_{}__".format(name): fn for name, fn in _METHODS.items()}
 
 
-def _bazel_lib_ord(c):
-    # @bazel_lib's ord() is a lookup in a 256-entry table, so anything outside
-    # Latin-1 comes back None rather than as a codepoint.
-    if len(c) != 1:
-        _fail("expected a string with a single character")
-    n = ord(c)
-    return n if n < 256 else None
-
-
-# Symbols exported by .bzl files in other repositories, keyed by load() label.
-EXTERNAL_SYMBOLS = {
-    "@bazel_lib//lib:strings.bzl": {
-        "ord": _bazel_lib_ord,
-    },
-}
+# Symbols exported by .bzl files in other repositories, keyed by load() label:
+# Python stand-ins for whatever a .bzl under test loads from elsewhere. Nothing
+# here does yet.
+EXTERNAL_SYMBOLS = {}
 
 
 def _module_for_label(label, loading_module):
