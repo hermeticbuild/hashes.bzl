@@ -1,0 +1,31 @@
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("//bazel/python:defs.bzl", "starlark_pytest")
+load(":cases.bzl", "digest_lines")
+
+# Bazel's own interpreter decodes and hashes every case while loading this
+# package; test_utf8 checks what it wrote.
+write_file(
+    name = "starlark_digests",
+    out = "starlark_digests.txt",
+    content = digest_lines() + [""],
+)
+
+starlark_pytest(
+    name = "test_utf8",
+    srcs = ["test_utf8.py"],
+    bzl_srcs = [
+        "cases.bzl",
+        "//:hashes.bzl",
+        "//private:bits.bzl",
+        "//private:bytes.bzl",
+        "//private:hex.bzl",
+        "//private:ord.bzl",
+        "//private/blake3:blake3.bzl",
+        "//private/md5:md5.bzl",
+        "//private/sha1:sha1.bzl",
+        "//private/sha256:sha256.bzl",
+    ],
+    data = [":starlark_digests"],
+    env = {"STARLARK_DIGESTS": "$(rootpath :starlark_digests)"},
+    deps = ["@pypi//blake3"],
+)

@@ -21,6 +21,10 @@ Each takes a byte string (Bazel's usual representation of bytes: one character
 per byte, U+0000 to U+00FF) and returns a lowercase hex digest; e.g.
 `hashes.sha256("hello")` is `"2cf24dba5fb0a30e..."`.
 
+Text from `json.decode` with `\u` escapes is only UTF-8 bytes from Bazel 8.2
+on; earlier versions fail or hash it as Latin-1. Literals and file contents
+work on every version.
+
 ## Is this a good idea?
 
 No absolutely not.

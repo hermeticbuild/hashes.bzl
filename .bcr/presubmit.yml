@@ -9,4 +9,17 @@ bcr_test_module:
       platform: ${{ platform }}
       bazel: ${{ bazel }}
       test_targets:
-        - //...
+        - //:digests_test
+    # json.decode only yields UTF-8 bytes from Bazel 8.2 on.
+    utf8_test_8:
+      name: Hash JSON-decoded multibyte text (Bazel 8)
+      platform: ubuntu2404
+      bazel: 8.x
+      test_targets:
+        - //utf8:utf8_test
+    utf8_test_9:
+      name: Hash JSON-decoded multibyte text (Bazel 9)
+      platform: ubuntu2404
+      bazel: 9.x
+      test_targets:
+        - //utf8:utf8_test

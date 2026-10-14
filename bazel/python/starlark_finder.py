@@ -15,7 +15,7 @@ The help consists of:
   other repositories are satisfied from `EXTERNAL_SYMBOLS`, a table of Python
   shims mimicking the Starlark originals.
 
-- The Starlark builtins Python lacks (`fail`, `struct`).
+- The Starlark builtins Python lacks (`fail`, `struct`, `json.decode`).
 
 - An AST rewrite of Starlark-only methods, which can't be monkeypatched onto
   Python's `str`. `s.elems()` becomes `__starlark_elems__(s)`.
@@ -30,6 +30,7 @@ import builtins
 import importlib
 import importlib.abc
 import importlib.util
+import json as _json
 import os
 import sys
 import types
@@ -54,6 +55,23 @@ def _elems(s):
     return list(s)
 
 
+def _to_bazel_strings(value):
+    if isinstance(value, str):
+        return value.encode("utf-8", "surrogateescape").decode("latin-1")
+    if isinstance(value, list):
+        return [_to_bazel_strings(v) for v in value]
+    if isinstance(value, dict):
+        return {_to_bazel_strings(k): _to_bazel_strings(v) for k, v in value.items()}
+    return value
+
+
+def _json_decode(x):
+    # As Bazel 8.2+ does: the input's bytes pass through, and \u escapes become
+    # the UTF-8 bytes of the code point they name (surrogate pairs combined).
+    text = x.encode("latin-1").decode("utf-8", "surrogateescape")
+    return _to_bazel_strings(_json.loads(text))
+
+
 # Starlark methods with no Python equivalent, rewritten to calls of these.
 _METHODS = {
     "elems": _elems,
@@ -61,6 +79,7 @@ _METHODS = {
 
 _BUILTINS = {
     "fail": _fail,
+    "json": _struct(decode=_json_decode),
     "struct": _struct,
 } | {"__starlark_{}__".format(name): fn for name, fn in _METHODS.items()}
 

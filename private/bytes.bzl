@@ -19,7 +19,11 @@ def to_bytes(input):
     for char in input.elems():
         byte = ord(char)
         if byte == None:
-            fail("hash input must be a byte string, but contains {}".format(repr(char)))
+            fail(
+                "hash input must be a byte string (characters U+0000 to U+00FF), " +
+                "but contains {}; before Bazel 8.2, json.decode produces such ".format(repr(char)) +
+                "characters for \\u escapes",
+            )
         result.append(byte)
     return result
 
