@@ -1,0 +1,16 @@
+[project]
+name = "hashes-bzl"
+version = "0.0.0"
+description = "Test harness for hashes.bzl; the hashes themselves are Starlark."
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+test = [
+    # Reference BLAKE3; hashlib has none.
+    "blake3",
+    # 6.165.8+ ships cp315-abi3.abi3t wheels, which aspect_rules_py 1.11.x can't
+    # configure (aspect-build/rules_py#1459, fixed only in 2.0.0).
+    "hypothesis<6.165.8",
+    "pytest",
+]

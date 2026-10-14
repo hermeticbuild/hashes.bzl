@@ -1,0 +1,11 @@
+package(default_visibility = ["//visibility:public"])
+
+# No dev-only loads here. A depending module that uses one of these files as a
+# target (say, for docs) evaluates this package, and can't see our dev
+# dependencies.
+exports_files([
+    "MODULE.bazel",
+    "hashes.bzl",
+    "pyproject.toml",
+    "uv.lock",
+])

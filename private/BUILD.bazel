@@ -1,0 +1,29 @@
+load("//bazel/python:defs.bzl", "starlark_pytest")
+
+exports_files([
+    "bits.bzl",
+    "bytes.bzl",
+    "hex.bzl",
+])
+
+starlark_pytest(
+    name = "test_bytes",
+    srcs = ["test_bytes.py"],
+    bzl_srcs = ["bytes.bzl"],
+)
+
+starlark_pytest(
+    name = "test_hashes",
+    srcs = ["test_hashes.py"],
+    bzl_srcs = [
+        "bits.bzl",
+        "bytes.bzl",
+        "hex.bzl",
+        "//:hashes.bzl",
+        "//private/blake3:blake3.bzl",
+        "//private/md5:md5.bzl",
+        "//private/sha1:sha1.bzl",
+        "//private/sha256:sha256.bzl",
+    ],
+    deps = ["@pypi//blake3"],
+)

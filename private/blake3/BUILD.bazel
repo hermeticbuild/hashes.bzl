@@ -1,0 +1,25 @@
+load("//bazel/python:defs.bzl", "starlark_pytest")
+load("//bazel/starlark:defs.bzl", "hash_kat_test")
+load(":blake3.bzl", "blake3")
+load(":vectors.bzl", "VECTORS")
+
+exports_files(["blake3.bzl"])
+
+hash_kat_test(
+    name = "blake3_kat_test",
+    hash = blake3,
+    vectors = VECTORS,
+)
+
+starlark_pytest(
+    name = "test_blake3",
+    srcs = ["test_blake3.py"],
+    bzl_srcs = [
+        "blake3.bzl",
+        "vectors.bzl",
+        "//private:bits.bzl",
+        "//private:bytes.bzl",
+        "//private:hex.bzl",
+    ],
+    deps = ["@pypi//blake3"],
+)

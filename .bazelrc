@@ -1,0 +1,10 @@
+# Python interpreter version; also selects which wheels the uv extension installs.
+# `is_default` on the interpreter toolchain doesn't set these, and the uv
+# extension fails analysis if the two disagree.
+common --@aspect_rules_py//py/private/interpreter:python_version=3.14
+common --@rules_python//python/config_settings:python_version=3.14
+
+# Select the uv venv (a pyproject.toml dependency group) used by Python targets.
+common --@pypi//venv=test
+
+test --test_output=errors

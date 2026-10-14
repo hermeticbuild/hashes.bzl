@@ -1,0 +1,9 @@
+load("@aspect_rules_py//py:defs.bzl", "py_library")
+
+exports_files(["pytest_shim.py"])
+
+py_library(
+    name = "starlark_finder",
+    srcs = ["starlark_finder.py"],
+    visibility = ["//visibility:public"],
+)

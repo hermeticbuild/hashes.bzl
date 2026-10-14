@@ -1,0 +1,24 @@
+load("//bazel/python:defs.bzl", "starlark_pytest")
+load("//bazel/starlark:defs.bzl", "hash_kat_test")
+load(":sha256.bzl", "sha256")
+load(":vectors.bzl", "VECTORS")
+
+exports_files(["sha256.bzl"])
+
+hash_kat_test(
+    name = "sha256_kat_test",
+    hash = sha256,
+    vectors = VECTORS,
+)
+
+starlark_pytest(
+    name = "test_sha256",
+    srcs = ["test_sha256.py"],
+    bzl_srcs = [
+        "sha256.bzl",
+        "vectors.bzl",
+        "//private:bits.bzl",
+        "//private:bytes.bzl",
+        "//private:hex.bzl",
+    ],
+)

@@ -1,0 +1,9 @@
+module(name = "hashes_examples")
+
+bazel_dep(name = "hashes.bzl")
+local_path_override(
+    module_name = "hashes.bzl",
+    path = "..",
+)
+
+bazel_dep(name = "bazel_skylib", version = "1.9.2")

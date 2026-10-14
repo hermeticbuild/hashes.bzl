@@ -1,0 +1,15 @@
+load("@buildifier_prebuilt//:rules.bzl", "buildifier", "buildifier_test")
+
+buildifier(
+    name = "buildifier",
+    lint_mode = "fix",
+    mode = "fix",
+)
+
+buildifier_test(
+    name = "buildifier_test",
+    lint_mode = "warn",
+    no_sandbox = True,
+    tags = ["no-remote"],
+    workspace = "//:MODULE.bazel",
+)

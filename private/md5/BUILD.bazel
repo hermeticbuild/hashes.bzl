@@ -1,0 +1,24 @@
+load("//bazel/python:defs.bzl", "starlark_pytest")
+load("//bazel/starlark:defs.bzl", "hash_kat_test")
+load(":md5.bzl", "md5")
+load(":vectors.bzl", "VECTORS")
+
+exports_files(["md5.bzl"])
+
+hash_kat_test(
+    name = "md5_kat_test",
+    hash = md5,
+    vectors = VECTORS,
+)
+
+starlark_pytest(
+    name = "test_md5",
+    srcs = ["test_md5.py"],
+    bzl_srcs = [
+        "md5.bzl",
+        "vectors.bzl",
+        "//private:bits.bzl",
+        "//private:bytes.bzl",
+        "//private:hex.bzl",
+    ],
+)

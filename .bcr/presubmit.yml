@@ -1,0 +1,12 @@
+bcr_test_module:
+  module_path: examples
+  matrix:
+    platform: [ubuntu2404]
+    bazel: [7.x, 8.x, 9.x]
+  tasks:
+    smoke_test:
+      name: Hash "abc" with every algorithm
+      platform: ${{ platform }}
+      bazel: ${{ bazel }}
+      test_targets:
+        - //...
