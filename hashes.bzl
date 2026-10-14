@@ -25,14 +25,14 @@ load("//private/sha512_224:sha512_224.bzl", _sha512_224 = "sha512_224")
 load("//private/sha512_256:sha512_256.bzl", _sha512_256 = "sha512_256")
 
 hashes = struct(
-    sha1 = _sha1,
     md5 = _md5,
-    sha256 = _sha256,
-    blake3 = _blake3,
-    crc32 = _crc32,
+    sha1 = _sha1,
     sha224 = _sha224,
-    sha512 = _sha512,
+    sha256 = _sha256,
     sha384 = _sha384,
+    sha512 = _sha512,
     sha512_224 = _sha512_224,
     sha512_256 = _sha512_256,
+    blake3 = _blake3,
+    crc32 = _crc32,
 )
