@@ -280,6 +280,65 @@
         }
       }
     },
+    "@@aspect_rules_py+//uv/private/tomltool:extension.bzl%tomltool": {
+      "general": {
+        "bzlTransitiveDigest": "iXH39N2e2vgpcTYpxr5mYeC00tU4683nr8hfRX91b5w=",
+        "usagesDigest": "CkvxDNVTZBT1aEe3FlVIKKzFH1uuXn6wd1xpALt8W6A=",
+        "recordedInputs": [
+          "REPO_MAPPING:aspect_rules_py+,bazel_tools bazel_tools"
+        ],
+        "generatedRepoSpecs": {
+          "toml2json_aarch64_osx_libsystem": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "url": "https://github.com/hermeticbuild/toml2json/releases/download/v0.0.23/toml2json_darwin_arm64",
+              "sha256": "6d9ac7a19c738771233192db058f74af1e6963e78147adef68d3463b6736fdd1",
+              "executable": true
+            }
+          },
+          "toml2json_x86_64_osx_libsystem": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "url": "https://github.com/hermeticbuild/toml2json/releases/download/v0.0.23/toml2json_darwin_amd64",
+              "sha256": "3fad1d4314fec5074b635ba3e5b31d578e2539137a017092bf364672a3c9676a",
+              "executable": true
+            }
+          },
+          "toml2json_aarch64_linux_gnu": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "url": "https://github.com/hermeticbuild/toml2json/releases/download/v0.0.23/toml2json_linux_arm64",
+              "sha256": "c64706324f99ad7109c62ef9475c58a6a7c6efc2f9c5fa1ce7750eb0cd9e8d02",
+              "executable": true
+            }
+          },
+          "toml2json_x86_64_linux_gnu": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "url": "https://github.com/hermeticbuild/toml2json/releases/download/v0.0.23/toml2json_linux_amd64",
+              "sha256": "fa7ce4deb4292a3ee93f4e47726ced6bb4e8483205e43e8daa4b05a4b77ec286",
+              "executable": true
+            }
+          },
+          "toml2json_x86_64_windows_msvc": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "url": "https://github.com/hermeticbuild/toml2json/releases/download/v0.0.23/toml2json_windows_amd64.exe",
+              "sha256": "bbc61cd6a081e490223b44f33003cb02e00301306d84fcba0cb3eaee8fb70396",
+              "executable": true
+            }
+          },
+          "toml2json_aarch64_windows_msvc": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "url": "https://github.com/hermeticbuild/toml2json/releases/download/v0.0.23/toml2json_windows_arm64.exe",
+              "sha256": "00a7101da6260926e8c23af3b802f82d3f820054fae3d86c29886545f5985a92",
+              "executable": true
+            }
+          }
+        }
+      }
+    },
     "@@aspect_tools_telemetry+//:extension.bzl%telemetry": {
       "general": {
         "bzlTransitiveDigest": "cl5A2O84vDL6Tt+Qga8FCj1DUDGqn+e7ly5rZ+4xvcc=",
@@ -296,6 +355,28 @@
                 "aspect_rules_py": "1.11.2",
                 "aspect_tools_telemetry": "0.3.3"
               }
+            }
+          }
+        }
+      }
+    },
+    "@@pybind11_bazel+//:internal_configure.bzl%internal_configure_extension": {
+      "general": {
+        "bzlTransitiveDigest": "BsgERqYptkJeeC8wFaLj251IoTZTSy/58WA6kVp0q8I=",
+        "usagesDigest": "D1r3lfzMuUBFxgG8V6o0bQTLMk3GkaGOaPzw53wrwyw=",
+        "recordedInputs": [
+          "REPO_MAPPING:pybind11_bazel+,bazel_tools bazel_tools",
+          "FILE:@@pybind11_bazel+//MODULE.bazel e6f4c20442eaa7c90d7190d8dc539d0ab422f95c65a57cc59562170c58ae3d34"
+        ],
+        "generatedRepoSpecs": {
+          "pybind11": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "build_file": "@@pybind11_bazel+//:pybind11-BUILD.bazel",
+              "strip_prefix": "pybind11-2.12.0",
+              "urls": [
+                "https://github.com/pybind/pybind11/archive/v2.12.0.zip"
+              ]
             }
           }
         }
