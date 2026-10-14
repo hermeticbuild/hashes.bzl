@@ -47,18 +47,37 @@ bytes like everything else. `//private/utf8:test_utf8` and
 
 No absolutely not.
 
-## Performance
+Bazel's Starlark interpreter hashes at 143 KiB/s to 1.5 MiB/s, three to four
+orders of magnitude slower than native code. Hashing 64 KiB messages on an AMD
+Ryzen 7 PRO 6850U:
 
-Abysmal, which is the point. `benchmark/run.py` measures throughput in Bazel's own
-Starlark interpreter and in [starlark-rs](https://github.com/facebook/starlark-rust)
-(Buck2's), against native implementations, checking every digest:
+| Algorithm | Bazel 9.3.0 | starlark-rs | Native | Bazel vs native |
+|---|---:|---:|---:|---:|
+| md5 | 792 KiB/s | 1.1 MiB/s | 955 MiB/s | 1,235× slower |
+| sha1 | 504 KiB/s | 649 KiB/s | 2.2 GiB/s | 4,627× slower |
+| sha224 | 293 KiB/s | 310 KiB/s | 2.1 GiB/s | 7,446× slower |
+| sha256 | 295 KiB/s | 308 KiB/s | 2.1 GiB/s | 7,373× slower |
+| sha384 | 143 KiB/s | 254 KiB/s | 1,005 MiB/s | 7,204× slower |
+| sha512 | 143 KiB/s | 262 KiB/s | 1,000 MiB/s | 7,154× slower |
+| sha512_224 | 143 KiB/s | 259 KiB/s | 1,006 MiB/s | 7,203× slower |
+| sha512_256 | 143 KiB/s | 260 KiB/s | 1,006 MiB/s | 7,220× slower |
+| blake3 | 430 KiB/s | 612 KiB/s | 5.2 GiB/s | 12,749× slower |
+| crc32 | 1.5 MiB/s | 6.1 MiB/s | 2.8 GiB/s | 1,996× slower |
+
+Small inputs fare little better: a 64-byte message takes Bazel 0.13 to 0.87 ms
+(44 µs for CRC-32), 180 to 1,230 times longer than native code.
+
+[starlark-rs](https://github.com/facebook/starlark-rust), Buck2's interpreter,
+is up to four times faster, which doesn't help. Native is CPython's `hashlib`
+and `zlib`, and the `blake3` package. To reproduce:
 
 ```shell
 uv run --group test benchmark/run.py
 ```
 
-starlark-rs releases up to at least 0.14.0 compute `1 << 31` as `-2147483648`,
-which breaks SHA-1 and SHA-2; build it from
+`benchmark/run.py` checks every digest it times. starlark-rs releases up to at
+least 0.14.0 compute `1 << 31` as `-2147483648`, which breaks SHA-1 and SHA-2;
+build it from
 [4ab492790e](https://github.com/facebook/starlark-rust/commit/4ab492790e) or
 later.
 
