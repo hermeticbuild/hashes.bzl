@@ -27,3 +27,15 @@ def rotr32(x, n):
        The rotated word
     """
     return ((x >> n) | (x << (32 - n))) & 0xFFFFFFFF
+
+def rotr64(x, n):
+    """Rotates a 64-bit word right.
+
+    Args:
+       x (int): The word, 0 to 0xFFFFFFFFFFFFFFFF
+       n (int): The number of bits to rotate by, 1 to 63
+
+    Returns:
+       The rotated word
+    """
+    return ((x >> n) | (x << (64 - n))) & 0xFFFFFFFFFFFFFFFF

@@ -55,21 +55,37 @@ def words_le(data):
         for i in range(0, len(data), 4)
     ]
 
-def md_pad(data, big_endian):
-    """Applies Merkle-Damgard padding for 64-byte blocks, as MD5 and SHA-1/2 do.
+def words64_be(data):
+    """Packs bytes into 64-bit words, most significant byte first.
 
-    Appends a 1 bit, then zeros up to 8 bytes short of a block boundary, then
-    the message length in bits as a 64-bit integer.
+    Args:
+       data (list[int]): The bytes; a multiple of 8 long
+
+    Returns:
+       A list of words
+    """
+    words = words_be(data)
+    return [(hi << 32) | lo for hi, lo in zip(words[0::2], words[1::2])]
+
+def md_pad(data, big_endian, block_size = 64):
+    """Applies Merkle-Damgard padding, as MD5 and SHA-1/2 do.
+
+    Appends a 1 bit, then zeros up to a length field short of a block boundary,
+    then the message length in bits. The length field is 8 bytes for 64-byte
+    blocks (MD5, SHA-1, SHA-224/256) and 16 for 128-byte blocks (SHA-384/512).
 
     Args:
        data (list[int]): The message bytes
        big_endian (bool): Whether to append the length most significant byte
            first (SHA) rather than least (MD5)
+       block_size (int): The block size in bytes, 64 or 128
 
     Returns:
-       The padded bytes; a multiple of 64 long
+       The padded bytes; a multiple of block_size long
     """
-    length = [((len(data) * 8) >> (8 * i)) & 0xFF for i in range(8)]
+    length_size = block_size // 8
+    length = [((len(data) * 8) >> (8 * i)) & 0xFF for i in range(length_size)]
     if big_endian:
         length = length[::-1]
-    return data + [0x80] + [0] * ((55 - len(data)) % 64) + length
+    zeros = (block_size - 1 - length_size - len(data)) % block_size
+    return data + [0x80] + [0] * zeros + length

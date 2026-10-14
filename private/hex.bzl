@@ -31,3 +31,14 @@ def hex_words_le(words):
         for word in words
         for shift in [4, 0, 12, 8, 20, 16, 28, 24]
     ])
+
+def hex_words64_be(words):
+    """Formats 64-bit words as hex, each most significant byte first (SHA-512).
+
+    Args:
+       words (list[int]): The digest words
+
+    Returns:
+       The hex digest, 16 characters per word
+    """
+    return hex_words_be([(word >> shift) & 0xFFFFFFFF for word in words for shift in [32, 0]])

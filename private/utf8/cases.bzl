@@ -41,7 +41,7 @@ CASES_JSON = r"""
 ]
 """
 
-ALGORITHMS = ["blake3", "md5", "sha1", "sha256", "crc32", "sha224"]
+ALGORITHMS = ["blake3", "md5", "sha1", "sha256", "crc32", "sha224", "sha512"]
 
 def utf8_cases():
     """Decodes the cases.

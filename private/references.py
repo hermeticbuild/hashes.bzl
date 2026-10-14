@@ -17,4 +17,5 @@ REFERENCES = {
     "sha256": _hashlib("sha256"),
     "crc32": lambda data: "%08x" % zlib.crc32(data),
     "sha224": _hashlib("sha224"),
+    "sha512": _hashlib("sha512"),
 }
