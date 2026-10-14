@@ -47,3 +47,15 @@ def test_raw_and_escaped_agree():
 @pytest.mark.parametrize(("name", "length"), [("first-2-byte", 2), ("first-3-byte", 3), ("emoji", 4)])
 def test_escapes_decode_to_utf8_bytes(name, length):
     assert len(dict(cases.utf8_cases())[name]) == length
+
+
+def test_cases_reach_bazel_through_escapes():
+    # Every case but the -raw ones must spell non-ASCII text as JSON escapes,
+    # or this stops testing how json.decode handles them. Tools that helpfully
+    # unescape them would otherwise go unnoticed: the digests stay the same.
+    escape = chr(92) + "u"
+    for line in cases.CASES_JSON.splitlines():
+        if '"name"' not in line or '-raw"' in line:
+            continue
+        assert line.isascii(), line
+    assert cases.CASES_JSON.count(escape) >= 20
