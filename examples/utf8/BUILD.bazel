@@ -33,6 +33,7 @@ write_file(
             "sha512",
             "sha384",
             "sha512_224",
+            "sha512_256",
         ]
     ] + [""],
 )
@@ -50,6 +51,7 @@ write_file(
         "cjk 6 sha512 8b88efc2ebbcbdad5ac2d65af05bec57bda25e71fd5fb25bbd892057a2755fbd05d8d8491cb2946febd5b0f124ffdfbaecf7e34946353c4f1b5ab29545895468",
         "cjk 6 sha384 93422ceb8291a69b22f02dc1114c39a287493ad525dcebc77e4019a44eaee2633a85d0f29cd298ee6799048c33a4be0c",
         "cjk 6 sha512_224 0f46a0ae7f226517dd66ece0ce1efa29ffb7ced05ac4566fdcaed188",
+        "cjk 6 sha512_256 b6dab29c16ec35ab34a5d92ff135b58de96741dda78b1009a2181cf8b45d2f72",
         "emoji 4 blake3 728105475d1a9e2f0164862a43e44bea39fa5d8b73d484f9137b8ae65a66dd7a",
         "emoji 4 md5 2a02eac39d716a70ecf37579185927b6",
         "emoji 4 sha1 9c533688a979a858cbd6a43c9f91aba624651f18",
@@ -59,6 +61,7 @@ write_file(
         "emoji 4 sha512 9b1ce8b6649e678e1cb7bca85afeaae750add5cfb0668d25ebba5e7f0038f1b6bdcc4bacd909049e752be2a3a3c0158c0f2bb5a33d8101b2ed5d74a66ece2425",
         "emoji 4 sha384 a97c579cff8389234376aa6ebefbc82c6ad6313b1373633fb1ae6f1d07a0e02c39c5e48d3a2f6971aa2f3c1bf1b5695b",
         "emoji 4 sha512_224 d29f43fcaaf30000275e2d752992c8761e0272e52c08a4bd79fd9ec5",
+        "emoji 4 sha512_256 f2e2add15f6f5ede243087b6e15f4a5b146ef724b4c58c268750b6d0be1f993d",
         "4-byte-across-block 65 blake3 23d0f975ca1dcf118fbd7db387290dce884774cd42f7fa2c2f60c7ed2678e32d",
         "4-byte-across-block 65 md5 649e647c619800037cae2efe1955d927",
         "4-byte-across-block 65 sha1 6cc1fa22d80bcf4e9ee48326073fb9c2a88f8fef",
@@ -68,6 +71,7 @@ write_file(
         "4-byte-across-block 65 sha512 95877984b0b0e649d21cabee7814dc85f9fd80cea3456ca303de41768501a3104894a1906a3e88a3bce1518ed686d5a7cf1d45cac3812a9fa5d4ba953501f1eb",
         "4-byte-across-block 65 sha384 71a6d1873d976536e39db33d0b0bbbfb99f5b693c85aa081ee689ae662155a55020b8fc67f1fea74acadd759deb859a1",
         "4-byte-across-block 65 sha512_224 3a87b831ccf57e112562f082a34bc0efafcc5f130dbce731c4ee4ab2",
+        "4-byte-across-block 65 sha512_256 1a2c57e2cc6944b3d424144562a9361fbc449111bdbd2d7db6cbc432d5ca1c36",
         "",
     ],
 )

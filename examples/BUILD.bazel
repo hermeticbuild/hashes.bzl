@@ -15,6 +15,7 @@ write_file(
         "sha512 " + hashes.sha512("abc"),
         "sha384 " + hashes.sha384("abc"),
         "sha512_224 " + hashes.sha512_224("abc"),
+        "sha512_256 " + hashes.sha512_256("abc"),
         "",
     ],
 )
@@ -32,6 +33,7 @@ write_file(
         "sha512 ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f",
         "sha384 cb00753f45a35e8bb5a03d699ac65007272c32ab0eded1631a8b605a43ff5bed8086072ba1e7cc2358baeca134c825a7",
         "sha512_224 4634270f707b6a54daae7530460842e20e37ed265ceee9a43e8924aa",
+        "sha512_256 53048e2681941ef99b2e29b76b4c7dabe4c2d0c634fc6d46e0e2f13107e7af23",
         "",
     ],
 )
