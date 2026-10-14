@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Each job runs on its .bazelversion, which must find the committed lockfile
+# current, and on the oldest supported Bazel (see "Compatibility" in README.md).
+# The examples are the BCR test module, so they also run on the latest 8.x and
+# 9.x, as .bcr/presubmit.yml does.
+
+jobs:
+  root-tests:
+    name: Root tests (Bazel ${{ matrix.bazel || '.bazelversion' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - bazel: ""
+            flags: --lockfile_mode=error
+          - bazel: 8.2.0
+    env:
+      USE_BAZEL_VERSION: ${{ matrix.bazel }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Configure Bazel
+        uses: bazel-contrib/setup-bazel@0.19.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}-root-${{ matrix.bazel }}
+          repository-cache: |
+            - MODULE.bazel
+            - MODULE.bazel.lock
+            - uv.lock
+          cache-save: ${{ github.event_name != 'pull_request' }}
+
+      - name: Test
+        run: bazel test //... ${{ matrix.flags }}
+
+  examples:
+    name: Examples (Bazel ${{ matrix.bazel || '.bazelversion' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - bazel: ""
+            flags: --lockfile_mode=error
+          - bazel: 8.2.0
+          - bazel: 8.x
+          - bazel: 9.x
+    env:
+      USE_BAZEL_VERSION: ${{ matrix.bazel }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Configure Bazel
+        uses: bazel-contrib/setup-bazel@0.19.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}-examples-${{ matrix.bazel }}
+          module-root: examples
+          repository-cache: |
+            - examples/.bazelversion
+            - examples/MODULE.bazel
+            - examples/MODULE.bazel.lock
+          cache-save: ${{ github.event_name != 'pull_request' }}
+
+      - name: Test
+        working-directory: examples
+        run: bazel test //... ${{ matrix.flags }}
