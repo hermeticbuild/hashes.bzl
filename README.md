@@ -47,28 +47,28 @@ bytes like everything else. `//private/utf8:test_utf8` and
 
 No absolutely not.
 
-Bazel's Starlark interpreter hashes at 143 KiB/s to 1.5 MiB/s, three to four
+Bazel's Starlark interpreter hashes at 185 KiB/s to 1.8 MiB/s, three to four
 orders of magnitude slower than native code. Hashing 64 KiB messages on an AMD
-Ryzen 7 PRO 6850U:
+Ryzen Threadripper 7970X:
 
 | Algorithm | Bazel 9.3.0 | starlark-rs | Native | Bazel vs native |
 |---|---:|---:|---:|---:|
-| md5 | 792 KiB/s | 1.1 MiB/s | 955 MiB/s | 1,235× slower |
-| sha1 | 504 KiB/s | 649 KiB/s | 2.2 GiB/s | 4,627× slower |
-| sha224 | 293 KiB/s | 310 KiB/s | 2.1 GiB/s | 7,446× slower |
-| sha256 | 295 KiB/s | 308 KiB/s | 2.1 GiB/s | 7,373× slower |
-| sha384 | 143 KiB/s | 254 KiB/s | 1,005 MiB/s | 7,204× slower |
-| sha512 | 143 KiB/s | 262 KiB/s | 1,000 MiB/s | 7,154× slower |
-| sha512_224 | 143 KiB/s | 259 KiB/s | 1,006 MiB/s | 7,203× slower |
-| sha512_256 | 143 KiB/s | 260 KiB/s | 1,006 MiB/s | 7,220× slower |
-| blake3 | 430 KiB/s | 612 KiB/s | 5.2 GiB/s | 12,749× slower |
-| crc32 | 1.5 MiB/s | 6.1 MiB/s | 2.8 GiB/s | 1,996× slower |
+| md5 | 1,014 KiB/s | 1.8 MiB/s | 1,024 MiB/s | 1,034× slower |
+| sha1 | 627 KiB/s | 1.1 MiB/s | 2.3 GiB/s | 3,917× slower |
+| sha224 | 360 KiB/s | 526 KiB/s | 2.2 GiB/s | 6,368× slower |
+| sha256 | 356 KiB/s | 535 KiB/s | 2.2 GiB/s | 6,462× slower |
+| sha384 | 185 KiB/s | 420 KiB/s | 1.1 GiB/s | 6,021× slower |
+| sha512 | 187 KiB/s | 413 KiB/s | 1.1 GiB/s | 5,994× slower |
+| sha512_224 | 187 KiB/s | 422 KiB/s | 1.1 GiB/s | 6,000× slower |
+| sha512_256 | 186 KiB/s | 426 KiB/s | 1.1 GiB/s | 5,969× slower |
+| blake3 | 514 KiB/s | 988 KiB/s | 7.4 GiB/s | 15,200× slower |
+| crc32 | 1.8 MiB/s | 8.1 MiB/s | 3.4 GiB/s | 1,916× slower |
 
-Small inputs fare little better: a 64-byte message takes Bazel 0.13 to 0.87 ms
-(44 µs for CRC-32), 180 to 1,230 times longer than native code.
+Small inputs fare little better: a 64-byte message takes Bazel 0.10 to 0.66 ms
+(35 µs for CRC-32), 180 to 1,170 times longer than native code.
 
 [starlark-rs](https://github.com/facebook/starlark-rust), Buck2's interpreter,
-is up to four times faster, which doesn't help. Native is CPython's `hashlib`
+is 1.5 to 4.5 times faster, which doesn't help. Native is CPython's `hashlib`
 and `zlib`, and the `blake3` package. To reproduce:
 
 ```shell
