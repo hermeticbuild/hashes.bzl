@@ -14,8 +14,8 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# Each job runs on its .bazelversion, which must find the committed lockfile
-# current, and on the oldest supported Bazel (see "Compatibility" in README.md).
+# The test jobs use their .bazelversion with the committed lockfile and the
+# oldest supported Bazel (see "Compatibility" in README.md).
 # The examples are the BCR test module, so they also run on the latest 8.x and
 # 9.x, as .bcr/presubmit.yml does.
 
@@ -85,3 +85,30 @@ jobs:
       - name: Test
         working-directory: examples
         run: bazel test //... ${{ matrix.flags }}
+
+  sty:
+    name: Starlark types
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Check the library and tests
+        uses: tamird/sty@sty-action-v0.2.0
+        with:
+          files: .
+
+      - name: Check the examples
+        uses: tamird/sty@sty-action-v0.2.0
+        with:
+          working-directory: examples
+          files: .
+          artifact-name: sty-examples
+
+      - name: Check the benchmark
+        uses: tamird/sty@sty-action-v0.2.0
+        with:
+          working-directory: benchmark
+          files: .
+          artifact-name: sty-benchmark
