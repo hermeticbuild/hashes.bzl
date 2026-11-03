@@ -4,6 +4,7 @@ load("//private:bytes.bzl", "to_bytes")
 load("//private/keccak:keccak.bzl", "sha3_hex")
 
 def sha3_256(input):
+    # type: (str) -> str
     """Computes the SHA3-256 digest of a byte string.
 
     Args:

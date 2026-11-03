@@ -73,6 +73,7 @@ _CHI1 = [(i + 1) % 5 + 5 * (i // 5) for i in range(25)]
 _CHI2 = [(i + 2) % 5 + 5 * (i // 5) for i in range(25)]
 
 def _keccak_f1600(a):
+    # type: (list[int]) -> list[int]
     """Applies the Keccak-f[1600] permutation.
 
     Args:
@@ -106,6 +107,7 @@ def _keccak_f1600(a):
     return a
 
 def sha3_hex(data, length):
+    # type: (list[int], int) -> str
     """Computes a SHA-3 digest.
 
     Args:

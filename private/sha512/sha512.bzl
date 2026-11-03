@@ -105,6 +105,7 @@ _IV = [
 ]
 
 def sha512_words(data, iv):
+    # type: (list[int], list[int]) -> list[int]
     """Runs the SHA-512 compression function over a message.
 
     The core shared by the SHA-512 family. SHA-384, SHA-512/224 and
@@ -178,6 +179,7 @@ def sha512_words(data, iv):
     return [h0, h1, h2, h3, h4, h5, h6, h7]
 
 def sha512(input):
+    # type: (str) -> str
     """Computes the SHA-512 digest of a byte string.
 
     Args:

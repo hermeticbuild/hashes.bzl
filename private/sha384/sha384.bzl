@@ -19,6 +19,7 @@ _IV = [
 ]
 
 def sha384(input):
+    # type: (str) -> str
     """Computes the SHA-384 digest of a byte string.
 
     Args:

@@ -5,6 +5,7 @@ every result is masked back to the word size.
 """
 
 def rotl32(x, n):
+    # type: (int, int) -> int
     """Rotates a 32-bit word left.
 
     Args:
@@ -17,6 +18,7 @@ def rotl32(x, n):
     return ((x << n) | (x >> (32 - n))) & 0xFFFFFFFF
 
 def rotr32(x, n):
+    # type: (int, int) -> int
     """Rotates a 32-bit word right.
 
     Args:
@@ -29,6 +31,7 @@ def rotr32(x, n):
     return ((x >> n) | (x << (32 - n))) & 0xFFFFFFFF
 
 def rotr64(x, n):
+    # type: (int, int) -> int
     """Rotates a 64-bit word right.
 
     Args:

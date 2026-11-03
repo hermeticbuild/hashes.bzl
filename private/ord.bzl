@@ -28,6 +28,7 @@ _BYTES = (
 _ORD = {char: i for i, char in enumerate(_BYTES.elems())}
 
 def ord(c):
+    # type: (str) -> int | None
     """Returns the byte value of a one-character byte string.
 
     Args:

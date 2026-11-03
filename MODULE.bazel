@@ -3,6 +3,8 @@ module(
     version = "0.0.0",
     # json.decode yields UTF-8 bytes, like every other Bazel string, only from
     # 8.2.0 (bazelbuild/bazel#24417); see "Compatibility" in README.md.
+    # TODO(https://github.com/bazelbuild/bazel/pull/30373): Move supported
+    # types into declarations once all supported interpreters parse them.
     bazel_compatibility = [">=8.2.0"],
 )
 

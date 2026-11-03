@@ -44,6 +44,7 @@ CASES_JSON = r"""
 ALGORITHMS = ["blake3", "md5", "sha1", "sha256", "crc32", "sha224", "sha512", "sha384", "sha512_224", "sha512_256", "sha3_224", "sha3_256", "sha3_384", "sha3_512"]
 
 def utf8_cases():
+    # type: () -> list[tuple[str, str]]
     """Decodes the cases.
 
     Returns:
@@ -55,6 +56,7 @@ def utf8_cases():
     ]
 
 def digest_lines():
+    # type: () -> list[str]
     """Hashes every case with every algorithm.
 
     Returns:

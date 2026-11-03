@@ -5,6 +5,7 @@ load("//private:bytes.bzl", "md_pad", "to_bytes", "words_be")
 load("//private:hex.bzl", "hex_words_be")
 
 def sha1(input):
+    # type: (str) -> str
     """Computes the SHA-1 digest of a byte string.
 
     Args:

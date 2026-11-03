@@ -31,7 +31,10 @@ _IV = [
 
 _MSG_PERMUTATION = [2, 6, 3, 10, 7, 0, 4, 13, 1, 11, 12, 5, 9, 14, 15, 8]
 
+# type _Output = tuple[list[int], list[int], int, int, int]
+
 def _g(v, a, b, c, d, mx, my):
+    # type: (list[int], int, int, int, int, int, int) -> None
     """The quarter-round, mixing two message words into four state words in place.
 
     Args:
@@ -53,6 +56,7 @@ def _g(v, a, b, c, d, mx, my):
     v[b] = rotr32(v[b] ^ v[c], 7)
 
 def _compress(cv, m, counter, block_len, flags):
+    # type: (list[int], list[int], int, int, int) -> list[int]
     """The BLAKE3 compression function.
 
     Args:
@@ -92,10 +96,12 @@ def _compress(cv, m, counter, block_len, flags):
     return [v[i] ^ v[i + 8] for i in range(8)]
 
 def _block_words(block):
+    # type: (list[int]) -> list[int]
     """Reads up to 64 bytes as 16 little-endian words, zero padding the tail."""
     return words_le(block + [0] * (_BLOCK_LEN - len(block)))
 
 def _chunk_output(chunk, counter):
+    # type: (list[int], int) -> _Output
     """Compresses all but the last block of a chunk.
 
     Args:
@@ -119,15 +125,18 @@ def _chunk_output(chunk, counter):
     return (cv, _block_words(block), counter, len(block), flags | _CHUNK_END)
 
 def _parent_output(left_cv, right_cv):
+    # type: (list[int], list[int]) -> _Output
     """The uncompressed output of a parent node over two child chaining values."""
     return (_IV, left_cv + right_cv, 0, _BLOCK_LEN, _PARENT)
 
 def _chaining_value(output):
+    # type: (_Output) -> list[int]
     """Compresses a non-root output into its chaining value."""
     cv, words, counter, block_len, flags = output
     return _compress(cv, words, counter, block_len, flags)
 
 def blake3(input):
+    # type: (str) -> str
     """Computes the BLAKE3 digest of a byte string.
 
     Args:
