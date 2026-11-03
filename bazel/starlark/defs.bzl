@@ -8,11 +8,23 @@ load("@bazel_skylib//rules:diff_test.bzl", "diff_test")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 
 def _describe(message):
+    # type: (str) -> str
     if len(message) > 32:
         message = message[:32] + "..."
     return repr(message)
 
-def hash_kat_test(name, hash, vectors, **kwargs):
+def hash_kat_test(
+        # type: str
+        name,
+        # type: Callable[[str], str]
+        hash,
+        # type: Collection[tuple[str, str]]
+        vectors,
+        # TODO(https://github.com/bazelbuild/bazel/issues/32343): Use a Bazel
+        # annotation when it can express diff_test's remaining keywords.
+        # type: Unpack[KeywordArgs[diff_test, "name", "file1", "file2"]]
+        **kwargs):
+    # type: (...) -> None
     """Checks `hash(message) == digest` for each `(message, digest)` in `vectors`.
 
     The hash runs while this macro is evaluated, so a Starlark error in it

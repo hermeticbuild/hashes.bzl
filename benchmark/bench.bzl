@@ -8,18 +8,24 @@ that double as warmup, and is taken `repeat` times.
 
 load(":workload.bzl", "message", "run")
 
+# TODO(https://github.com/bazelbuild/bazel/issues/32020): use Bazel annotations
+# when it exposes repository_ctx, module_ctx, and extension_metadata.
+
 def _now_ns(rctx):
+    # type: (repository_ctx) -> int
     result = rctx.execute(["date", "+%s%N"])
     if result.return_code != 0:
         fail("date failed: " + result.stderr)
     return int(result.stdout.strip())
 
 def _time_ns(rctx, algorithm, data, calls):
+    # type: (repository_ctx, str, str, int) -> int
     start = _now_ns(rctx)
     run(algorithm, data, calls)
     return _now_ns(rctx) - start
 
 def _calibrate(rctx, algorithm, data, target_ns, overhead_ns):
+    # type: (repository_ctx, str, str, int, int) -> int
     """Picks a number of calls taking about target_ns, warming up on the way."""
     calls = 1
     for _ in range(32):
@@ -32,6 +38,7 @@ def _calibrate(rctx, algorithm, data, target_ns, overhead_ns):
     fail("{} never took {}ns".format(algorithm, target_ns))
 
 def _results_impl(rctx):
+    # type: (repository_ctx) -> None
     config = rctx.getenv("BENCH_CONFIG")
     if config == None:
         fail("run benchmark/run.py, which sets BENCH_CONFIG")
@@ -65,6 +72,7 @@ def _results_impl(rctx):
 _results = repository_rule(implementation = _results_impl)
 
 def _bench_impl(module_ctx):
+    # type: (module_ctx) -> extension_metadata
     _results(name = "hashes_bench_results")
     return module_ctx.extension_metadata(reproducible = False)
 
