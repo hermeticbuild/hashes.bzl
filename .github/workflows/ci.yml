@@ -97,7 +97,9 @@ jobs:
       - name: Check the library and tests
         uses: tamird/sty@sty-action-v0.2.0
         with:
-          files: .
+          files: |
+            .
+            @bazel_skylib//rules/private:write_file_private.bzl
 
       - name: Check the examples
         uses: tamird/sty@sty-action-v0.2.0

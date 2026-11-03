@@ -24,13 +24,18 @@ def py_pytest(
         **kwargs: Passed through to py_venv_test.
     """
     shim = Label("//bazel/python:pytest_shim.py")
+    test_srcs = [shim] + srcs
+    test_args = args + ["$(rootpath {})".format(src) for src in srcs]
+    test_deps = depset([Label("@pypi//pytest")] + [native.package_relative_label(dep) for dep in deps]).to_list()
 
+    # aspect_rules_py leaves py_venv_test's parameter types open.
+    # ty: ignore[non-static-type]
     py_venv_test(
         name = name,
-        srcs = [shim] + srcs,
+        srcs = test_srcs,
         main = shim,
-        args = args + ["$(rootpath {})".format(src) for src in srcs],
-        deps = depset([Label("@pypi//pytest")] + [native.package_relative_label(dep) for dep in deps]).to_list(),
+        args = test_args,
+        deps = test_deps,
         **kwargs
     )
 

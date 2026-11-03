@@ -36,6 +36,7 @@ def hash_kat_test(
         vectors: A list of (message, hex digest) pairs.
         **kwargs: Passed through to diff_test.
     """
+
     write_file(
         name = name + "_expected",
         out = name + ".expected.txt",

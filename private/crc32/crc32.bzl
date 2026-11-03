@@ -36,5 +36,5 @@ def crc32(input):
     crc = 0xFFFFFFFF
     for byte in to_bytes(input):
         # crc only ever shifts right, so it never grows past 32 bits.
-        crc = _TABLE[(crc ^ byte) & 0xFF] ^ (crc >> 8)
+        crc = _TABLE[(crc ^ byte) & 0xFF] ^ (crc >> 8)  # type: int
     return hex_words_be([crc ^ 0xFFFFFFFF])

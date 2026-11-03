@@ -3,6 +3,8 @@ load("@buildifier_prebuilt//:rules.bzl", "buildifier", "buildifier_test")
 # Scratch space, including benchmark/run.py's staged copy of the .bzl files.
 _EXCLUDE = ["./.tmp/*"]
 
+# buildifier_prebuilt builds the attribute schema in a factory.
+# ty: ignore[non-static-type]
 buildifier(
     name = "buildifier",
     exclude_patterns = _EXCLUDE,
@@ -10,6 +12,8 @@ buildifier(
     mode = "fix",
 )
 
+# buildifier_test forwards untyped **kwargs to its private test rule.
+# ty: ignore[non-static-type]
 buildifier_test(
     name = "buildifier_test",
     exclude_patterns = _EXCLUDE,

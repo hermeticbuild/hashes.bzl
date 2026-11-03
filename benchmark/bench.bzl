@@ -37,12 +37,27 @@ def _calibrate(rctx, algorithm, data, target_ns, overhead_ns):
         calls *= 4
     fail("{} never took {}ns".format(algorithm, target_ns))
 
+# TODO(https://github.com/bazelbuild/bazel/issues/31770): declare this schema
+# in source when Bazel supports typed dictionaries.
+# type _Config = dict[{
+#     "algorithms": list[str],
+#     "repeat": int,
+#     "sizes": list[int],
+#     "target_ms": int,
+# }]
+
+def _read_config(rctx):
+    # type: (repository_ctx) -> _Config
+    raw = rctx.getenv("BENCH_CONFIG")
+    if raw == None:
+        fail("run benchmark/run.py, which sets BENCH_CONFIG")
+
+    # run.py writes _Config; json.decode's return type permits any JSON value.
+    return json.decode(raw)  # ty: ignore[non-static-type, unsound-return-statement]
+
 def _results_impl(rctx):
     # type: (repository_ctx) -> None
-    config = rctx.getenv("BENCH_CONFIG")
-    if config == None:
-        fail("run benchmark/run.py, which sets BENCH_CONFIG")
-    config = json.decode(config)
+    config = _read_config(rctx)
 
     # Re-runs on every invocation of run.py, rather than reusing old results.
     rctx.getenv("BENCH_RUN")

@@ -4,5 +4,6 @@ require-valid-suppressions = true
 
 [rules]
 strict = "error"
-# JSON test data and benchmark dispatch by algorithm name have dynamic types.
-non-static-type = "warn"
+
+[[stub-packages]]
+manifest = "stubs/bazel_skylib/stubs.toml"
