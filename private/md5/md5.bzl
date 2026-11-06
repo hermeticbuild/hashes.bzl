@@ -82,6 +82,7 @@ _S = [
 ]
 
 def md5(input):
+    # type: (str) -> str
     """Computes the MD5 digest of a byte string.
 
     Args:

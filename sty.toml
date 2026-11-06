@@ -1,0 +1,9 @@
+[analysis]
+strict-generic-narrowing = true
+require-valid-suppressions = true
+
+[rules]
+strict = "error"
+
+[[stub-packages]]
+manifest = "stubs/bazel_skylib/stubs.toml"

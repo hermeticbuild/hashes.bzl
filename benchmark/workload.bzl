@@ -3,6 +3,7 @@
 load("@hashes.bzl", "hashes")
 
 def message(size):
+    # type: (int) -> str
     """Returns `size` bytes to hash.
 
     Args:
@@ -14,6 +15,7 @@ def message(size):
     return ("0123456789abcdef" * (size // 16 + 1))[:size]
 
 def run(algorithm, data, calls):
+    # type: (str, str, int) -> str | None
     """Hashes `data` with `hashes.<algorithm>`, `calls` times over.
 
     Args:

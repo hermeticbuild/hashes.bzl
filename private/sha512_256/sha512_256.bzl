@@ -19,6 +19,7 @@ _IV = [
 ]
 
 def sha512_256(input):
+    # type: (str) -> str
     """Computes the SHA-512/256 digest of a byte string.
 
     Args:

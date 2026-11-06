@@ -3,6 +3,7 @@
 load("//private:ord.bzl", "ord")
 
 def to_bytes(input):
+    # type: (str) -> list[int]
     """Converts a byte string to a list of byte values.
 
     Bazel represents bytes as strings of characters U+0000 to U+00FF (file
@@ -28,6 +29,7 @@ def to_bytes(input):
     return result
 
 def words_be(data):
+    # type: (list[int]) -> list[int]
     """Packs bytes into 32-bit words, most significant byte first.
 
     Args:
@@ -42,6 +44,7 @@ def words_be(data):
     ]
 
 def words_le(data):
+    # type: (list[int]) -> list[int]
     """Packs bytes into 32-bit words, least significant byte first.
 
     Args:
@@ -56,6 +59,7 @@ def words_le(data):
     ]
 
 def words64_be(data):
+    # type: (list[int]) -> list[int]
     """Packs bytes into 64-bit words, most significant byte first.
 
     Args:
@@ -68,6 +72,7 @@ def words64_be(data):
     return [(hi << 32) | lo for hi, lo in zip(words[0::2], words[1::2])]
 
 def words64_le(data):
+    # type: (list[int]) -> list[int]
     """Packs bytes into 64-bit words, least significant byte first.
 
     Args:
@@ -80,6 +85,7 @@ def words64_le(data):
     return [(hi << 32) | lo for lo, hi in zip(words[0::2], words[1::2])]
 
 def md_pad(data, big_endian, block_size = 64):
+    # type: (list[int], bool, int) -> list[int]
     """Applies Merkle-Damgard padding, as MD5 and SHA-1/2 do.
 
     Appends a 1 bit, then zeros up to a length field short of a block boundary,

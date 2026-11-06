@@ -8,18 +8,24 @@ that double as warmup, and is taken `repeat` times.
 
 load(":workload.bzl", "message", "run")
 
+# TODO(https://github.com/bazelbuild/bazel/issues/32020): use Bazel annotations
+# when it exposes repository_ctx, module_ctx, and extension_metadata.
+
 def _now_ns(rctx):
+    # type: (repository_ctx) -> int
     result = rctx.execute(["date", "+%s%N"])
     if result.return_code != 0:
         fail("date failed: " + result.stderr)
     return int(result.stdout.strip())
 
 def _time_ns(rctx, algorithm, data, calls):
+    # type: (repository_ctx, str, str, int) -> int
     start = _now_ns(rctx)
     run(algorithm, data, calls)
     return _now_ns(rctx) - start
 
 def _calibrate(rctx, algorithm, data, target_ns, overhead_ns):
+    # type: (repository_ctx, str, str, int, int) -> int
     """Picks a number of calls taking about target_ns, warming up on the way."""
     calls = 1
     for _ in range(32):
@@ -31,11 +37,27 @@ def _calibrate(rctx, algorithm, data, target_ns, overhead_ns):
         calls *= 4
     fail("{} never took {}ns".format(algorithm, target_ns))
 
-def _results_impl(rctx):
-    config = rctx.getenv("BENCH_CONFIG")
-    if config == None:
+# TODO(https://github.com/bazelbuild/bazel/issues/31770): declare this schema
+# in source when Bazel supports typed dictionaries.
+# type _Config = dict[{
+#     "algorithms": list[str],
+#     "repeat": int,
+#     "sizes": list[int],
+#     "target_ms": int,
+# }]
+
+def _read_config(rctx):
+    # type: (repository_ctx) -> _Config
+    raw = rctx.getenv("BENCH_CONFIG")
+    if raw == None:
         fail("run benchmark/run.py, which sets BENCH_CONFIG")
-    config = json.decode(config)
+
+    # run.py writes _Config; json.decode's return type permits any JSON value.
+    return json.decode(raw)  # ty: ignore[non-static-type, unsound-return-statement]
+
+def _results_impl(rctx):
+    # type: (repository_ctx) -> None
+    config = _read_config(rctx)
 
     # Re-runs on every invocation of run.py, rather than reusing old results.
     rctx.getenv("BENCH_RUN")
@@ -65,6 +87,7 @@ def _results_impl(rctx):
 _results = repository_rule(implementation = _results_impl)
 
 def _bench_impl(module_ctx):
+    # type: (module_ctx) -> extension_metadata
     _results(name = "hashes_bench_results")
     return module_ctx.extension_metadata(reproducible = False)
 

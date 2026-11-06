@@ -4,13 +4,17 @@ load("@hashes.bzl", "hashes")
 
 # Multibyte text smuggled in through json.decode's \u escapes, which decode
 # to UTF-8 bytes from Bazel 8.2.0 (bazelbuild/bazel#24417).
-_CASES = json.decode(r"""
+_CASES_JSON = r"""
 [
     ["cjk", "\u4e2d\u6587"],
     ["emoji", "\ud83d\ude00"],
     ["4-byte-across-block", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\ud83d\ude00"]
 ]
-""")
+"""
+
+# json.decode accepts any JSON value; this fixture contains pairs of strings.
+# type: list[list[str]]
+_CASES = json.decode(_CASES_JSON)  # ty: ignore[non-static-type, unsound-assignment]
 
 write_file(
     name = "digests",

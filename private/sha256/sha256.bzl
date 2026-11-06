@@ -87,6 +87,7 @@ _IV = [
 ]
 
 def sha256_words(data, iv):
+    # type: (list[int], list[int]) -> list[int]
     """Runs the SHA-256 compression function over a message.
 
     Shared by SHA-256 and SHA-224, which differ only in their initial hash
@@ -154,6 +155,7 @@ def sha256_words(data, iv):
     return [h0, h1, h2, h3, h4, h5, h6, h7]
 
 def sha256(input):
+    # type: (str) -> str
     """Computes the SHA-256 digest of a byte string.
 
     Args:

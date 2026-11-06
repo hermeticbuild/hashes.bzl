@@ -3,6 +3,7 @@
 _HEX_CHARS = "0123456789abcdef"
 
 def hex_words_be(words):
+    # type: (list[int]) -> str
     """Formats 32-bit words as hex, each most significant byte first (SHA).
 
     Args:
@@ -18,6 +19,7 @@ def hex_words_be(words):
     ])
 
 def hex_words_le(words):
+    # type: (list[int]) -> str
     """Formats 32-bit words as hex, each least significant byte first (MD5, BLAKE3).
 
     Args:
@@ -33,6 +35,7 @@ def hex_words_le(words):
     ])
 
 def hex_words64_be(words):
+    # type: (list[int]) -> str
     """Formats 64-bit words as hex, each most significant byte first (SHA-512).
 
     Args:

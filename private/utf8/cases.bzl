@@ -41,20 +41,35 @@ CASES_JSON = r"""
 ]
 """
 
+# json.decode's return type permits any JSON value. Each case above has a
+# name and text; only the boundary cases supply pad or repeat.
+# TODO(https://github.com/bazelbuild/bazel/issues/31770): declare this schema
+# in source when Bazel supports typed dictionaries.
+# type: list[dict[{
+#     "name": str,
+#     "text": str,
+#     "pad": NotRequired[int],
+#     "repeat": NotRequired[int],
+# }]]
+_CASES = json.decode(CASES_JSON)  # ty: ignore[non-static-type, unsound-assignment]
+
 ALGORITHMS = ["blake3", "md5", "sha1", "sha256", "crc32", "sha224", "sha512", "sha384", "sha512_224", "sha512_256", "sha3_224", "sha3_256", "sha3_384", "sha3_512"]
 
 def utf8_cases():
-    """Decodes the cases.
+    # type: () -> list[tuple[str, str]]
+    """Builds the byte strings for the UTF-8 cases.
 
     Returns:
        A list of (name, message) pairs
     """
+
     return [
         (case["name"], "a" * case.get("pad", 0) + case["text"] * case.get("repeat", 1))
-        for case in json.decode(CASES_JSON)
+        for case in _CASES
     ]
 
 def digest_lines():
+    # type: () -> list[str]
     """Hashes every case with every algorithm.
 
     Returns:

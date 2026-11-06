@@ -3,6 +3,8 @@ module(
     version = "0.0.0",
     # json.decode yields UTF-8 bytes, like every other Bazel string, only from
     # 8.2.0 (bazelbuild/bazel#24417); see "Compatibility" in README.md.
+    # TODO(https://github.com/bazelbuild/bazel/pull/30373): Move supported
+    # types into declarations once all supported interpreters parse them.
     bazel_compatibility = [">=8.2.0"],
 )
 
@@ -22,6 +24,9 @@ interpreters = use_extension(
     "python_interpreters",
     dev_dependency = True,
 )
+
+# sty cannot resolve the tag schema through the extension proxy.
+# ty: ignore[non-static-type]
 interpreters.toolchain(
     is_default = True,
     python_version = "3.14",
@@ -38,7 +43,10 @@ uv = use_extension(
     "uv",
     dev_dependency = True,
 )
-uv.declare_hub(hub_name = "pypi")
+uv.declare_hub(hub_name = "pypi")  # ty: ignore[non-static-type]
+
+# The unknown tag schema also leaves the empty dependency list untyped.
+# ty: ignore[non-static-type]
 uv.project(
     # Every locked requirement ships a wheel, so no sdist build tools are needed.
     default_build_dependencies = [],

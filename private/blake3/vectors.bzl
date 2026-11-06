@@ -23,6 +23,7 @@ _PATTERN = (
 )
 
 def _input(length):
+    # type: (int) -> str
     return (_PATTERN * (length // len(_PATTERN) + 1))[:length]
 
 VECTORS = [

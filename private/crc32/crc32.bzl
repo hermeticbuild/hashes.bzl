@@ -8,6 +8,7 @@ load("//private:hex.bzl", "hex_words_be")
 _POLY = 0xEDB88320
 
 def _make_table():
+    # type: () -> list[int]
     # The CRC of each single byte; .bzl files can't loop at top level.
     table = []
     for n in range(256):
@@ -23,6 +24,7 @@ def _make_table():
 _TABLE = _make_table()
 
 def crc32(input):
+    # type: (str) -> str
     """Computes the CRC-32 checksum of a byte string.
 
     Args:
@@ -34,5 +36,5 @@ def crc32(input):
     crc = 0xFFFFFFFF
     for byte in to_bytes(input):
         # crc only ever shifts right, so it never grows past 32 bits.
-        crc = _TABLE[(crc ^ byte) & 0xFF] ^ (crc >> 8)
+        crc = _TABLE[(crc ^ byte) & 0xFF] ^ (crc >> 8)  # type: int
     return hex_words_be([crc ^ 0xFFFFFFFF])
